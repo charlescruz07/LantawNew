@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "620954201245",
+    "firebase_url": "https://my-project-151421.firebaseio.com",
+    "project_id": "my-project-151421",
+    "storage_bucket": "my-project-151421.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620954201245:android:7ce9d20427c2b100",
+        "android_client_info": {
+          "package_name": "com.cruz.lantaw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620954201245-ainjnkq088e080droj1j8mgn69ikbo96.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "620954201245-ct606bvhvff7fr09ms08khemhdg15th6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cruz.lantaw",
+            "certificate_hash": "c32a59541fb5db749481349045b4855240b238e4"
+          }
+        },
+        {
+          "client_id": "620954201245-h0n1bv9bn4iej13k86dt99c8od1j4vfg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6fW8tL0pQv_cdPncc4gk5a7_vz8hljQM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620954201245-ainjnkq088e080droj1j8mgn69ikbo96.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
