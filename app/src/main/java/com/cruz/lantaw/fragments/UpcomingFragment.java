@@ -187,6 +187,7 @@ public class UpcomingFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
+                int x = 6;
 
 //                mProgressDialog.setVisibility(View.INVISIBLE);
 
@@ -200,10 +201,14 @@ public class UpcomingFragment extends Fragment {
                     slugs = new String[obj.length()];
                     titles = new String[obj.length()];
                     poster_image_thumbnails = new String[obj.length()];
+                    for (int i = 0; i < obj.length()-7; i++,x++) {
+//                        if (x > i){
+//                            x++;
+//                        }
+                        Log.e(TAG, "onResponse: "+ x + " " + i);
 
-                    for (int i = 7; i < obj.length(); i++) {
 
-                        JSONObject jsonObject = obj.getJSONObject(i);
+                        JSONObject jsonObject = obj.getJSONObject(x);
                         String slug = jsonObject.getString("slug");
                         String title = jsonObject.getString("title");
                         String poster_image_thumbnail = jsonObject.getString("poster_image_thumbnail");

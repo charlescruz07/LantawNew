@@ -34,10 +34,7 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        if  (movies[i]!=null){
-            return movies[i];
-        }
-        return null;
+        return movies[i];
     }
 
     @Override
@@ -48,13 +45,11 @@ public class GridAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View gridView = view;
-        
 
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         gridView = layoutInflater.inflate(R.layout.grid_layout, null);
 
         ImageView movieImg = gridView.findViewById(R.id.movieImg);
-
         Glide.with(context).load(movies[i]).into(movieImg);
         return gridView;
     }
