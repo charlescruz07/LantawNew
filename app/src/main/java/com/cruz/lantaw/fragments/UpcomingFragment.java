@@ -76,11 +76,11 @@ public class UpcomingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ProgressDialog dialog=new ProgressDialog(getActivity());
-        dialog.setMessage("message");
-        dialog.setCancelable(false);
-        dialog.setInverseBackgroundForced(false);
-        dialog.show();
+//        ProgressDialog dialog=new ProgressDialog(getActivity());
+//        dialog.setMessage("message");
+//        dialog.setCancelable(false);
+//        dialog.setInverseBackgroundForced(false);
+//        dialog.show();
 
 
 
@@ -137,7 +137,7 @@ public class UpcomingFragment extends Fragment {
 
             }
         });
-        dialog.hide();
+//        dialog.hide();
 
         return rootView;
     }
@@ -177,9 +177,9 @@ public class UpcomingFragment extends Fragment {
     public void volleyStringRequst(String url){
 
         String  REQUEST_TAG = "com.androidtutorialpoint.volleyStringRequest";
-        ProgressDialog progressDialog = new ProgressDialog(getContext());;
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
+//        ProgressDialog progressDialog = new ProgressDialog(getContext());;
+//        progressDialog.setMessage("Loading...");
+//        progressDialog.show();
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 url, null, new Response.Listener<JSONObject>() {
@@ -188,7 +188,7 @@ public class UpcomingFragment extends Fragment {
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
 
-                mProgressDialog.setVisibility(View.INVISIBLE);
+//                mProgressDialog.setVisibility(View.INVISIBLE);
 
 
                 try {
@@ -201,7 +201,7 @@ public class UpcomingFragment extends Fragment {
                     titles = new String[obj.length()];
                     poster_image_thumbnails = new String[obj.length()];
 
-                    for (int i = 0; i < obj.length(); i++) {
+                    for (int i = 7; i < obj.length(); i++) {
 
                         JSONObject jsonObject = obj.getJSONObject(i);
                         String slug = jsonObject.getString("slug");
@@ -222,7 +222,7 @@ public class UpcomingFragment extends Fragment {
                     gridView.setAdapter(adapter);
 
 
-                    Log.d(TAG, movies[1]);
+//                    Log.d(TAG, movies[1]);
 
 
 
@@ -243,7 +243,7 @@ public class UpcomingFragment extends Fragment {
         });
         // Adding String request to request queue
         AppSingleton.getInstance(getContext()).addToRequestQueue(jsonObjReq, REQUEST_TAG);
-        progressDialog.hide();
+//        progressDialog.hide();
     }
 
     private boolean isNetworkAvailable() {

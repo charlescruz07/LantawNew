@@ -88,6 +88,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
             startActivityForResult(signInIntent, RC_SIGN_IN);
+            mProgressDialog.setVisibility(View.GONE);
+
 
         }
 
@@ -127,7 +129,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
             } else {
-
+                mProgressDialog.setVisibility(View.GONE);
                 // Google Sign In failed, update UI appropriately
                 // ...
             }
