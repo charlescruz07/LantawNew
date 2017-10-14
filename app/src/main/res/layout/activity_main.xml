@@ -27,13 +27,14 @@
                 android:layout_width="130dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ic_app_title"/>
-            <Button
-                android:layout_height="30sp"
-                android:layout_width="50sp"
-                android:id="@+id/reco"
-                android:text="REC"
-                android:background="@color/colorBackground"
-                />
+
+            <!--<Button-->
+                <!--android:layout_height="30sp"-->
+                <!--android:layout_width="50sp"-->
+                <!--android:id="@+id/reco"-->
+                <!--android:text="REC"-->
+                <!--android:background="@color/colorBackground"-->
+                <!--/>-->
 
 
 

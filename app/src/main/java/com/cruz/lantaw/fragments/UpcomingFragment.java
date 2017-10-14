@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -46,6 +47,7 @@ public class UpcomingFragment extends Fragment {
     GridAdapter adapter;
 //    int page = 0;
     String poster_image_thumbnails[];
+    private ProgressBar mProgressDialog;
 
 
 
@@ -53,6 +55,11 @@ public class UpcomingFragment extends Fragment {
 
     private View rootView;
     private GridView gridView;
+
+    private String REQUEST_TAG="getTrailer";
+    private String trailerLink;
+    private String theTrailer;
+    private String sendTitle;
 
 
 //    private Button nextBtn, prevBtn;
@@ -84,6 +91,9 @@ public class UpcomingFragment extends Fragment {
         volleyStringRequst("https://api.cinepass.de/v4/movies/?apikey=465NWAaWLP4bkRQrVmArERbwwBuxxIp3");
         rootView = inflater.inflate(R.layout.fragment_upcoming, container, false);
 
+        mProgressDialog = rootView.findViewById(R.id.progressBar);
+
+
         gridView = rootView.findViewById(R.id.gridView);
 
 //        nextBtn = rootView.findViewById(R.id.nextBtn);
@@ -110,7 +120,7 @@ public class UpcomingFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int item) {
                             switch (item) {
                                 case 0:
-                                    sendEmail();
+                                    sendEmail(i);
                                     break;
                                 case 1:
                                     Intent intent = new Intent(getActivity(), MovieInfoActivity.class);
@@ -132,25 +142,35 @@ public class UpcomingFragment extends Fragment {
         return rootView;
     }
 
-    protected void sendEmail() {
-        Log.i("Send email", "");
-        String[] TO = {""};
-        String[] CC = {""};
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
-        emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.setType("text/plain");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_CC, CC);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
 
-        try {
-            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-//            Log.i("Finished sending email...", "");
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(getActivity(), "There is no email client installed.", Toast.LENGTH_SHORT).show();
-        }
+    protected void sendEmail(final int i) {
+        String url = "https://api.cinepass.de/v4/movies/"+ids[i]+"/?apikey=465NWAaWLP4bkRQrVmArERbwwBuxxIp3";
+        getTrailerLink(url, new Callback() {
+            @Override
+            public void getTrailerLink(String link) {
+                theTrailer = link;
+                Log.i("Send email", "");
+                String[] TO = {""};
+                String[] CC = {""};
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setData(Uri.parse("mailto:"));
+                emailIntent.setType("text/plain");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+                emailIntent.putExtra(Intent.EXTRA_CC, CC);
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "Hey there! I've seen the movie entitled "+ titles[i] +" "+"it's a good one, don't miss it! " +
+                        "Watch their trailer video: "+ theTrailer);
+
+                try {
+                    startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                    Log.i("Finished sending email...", "");
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(getActivity(), "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
 
@@ -168,6 +188,7 @@ public class UpcomingFragment extends Fragment {
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
 
+                mProgressDialog.setVisibility(View.INVISIBLE);
 
 
                 try {
@@ -230,6 +251,51 @@ public class UpcomingFragment extends Fragment {
                 = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public interface Callback{
+        void getTrailerLink(String link);
+    }
+
+    public void getTrailerLink(String url, final Callback callback){
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                url, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+                try {
+                    JSONObject obj = response.getJSONObject("movie");
+                    String title = obj.getString("original_title");
+                    String synopsis = obj.getString("synopsis");
+                    String runtime = obj.getString("runtime");
+                    if (obj.isNull("trailers")) {
+                        trailerLink = "";
+                        callback.getTrailerLink(trailerLink);
+                    } else {
+//                        Toast.makeText(MovieInfoActivity.this, "naa elle", Toast.LENGTH_SHORT).show();
+                        JSONArray trailers = obj.getJSONArray("trailers");
+                        JSONObject jsonObjectTrailer = trailers.getJSONObject(0);
+                        JSONArray trailer_files = jsonObjectTrailer.getJSONArray("trailer_files");
+                        JSONObject jsonObjecttrailer_files = trailer_files.getJSONObject(0);
+                        trailerLink = jsonObjecttrailer_files.getString("url");
+                        callback.getTrailerLink(trailerLink);
+                    }
+
+                    Log.d("wahtttt",trailerLink+ " "+title);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+        AppSingleton.getInstance(getContext()).addToRequestQueue(jsonObjReq, REQUEST_TAG);
     }
 
 }

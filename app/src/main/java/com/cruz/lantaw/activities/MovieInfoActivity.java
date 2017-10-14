@@ -41,7 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MovieInfoActivity extends AppCompatActivity {
+public class  MovieInfoActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView mTvTitle;
@@ -63,6 +63,7 @@ public class MovieInfoActivity extends AppCompatActivity {
 
     public static final String TAG = "movieinfoactivity";
     private FirebaseUser user;
+    private String poster_image_thumbnail;
 
 
     @Override
@@ -118,11 +119,12 @@ public class MovieInfoActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+
     public void volleyStringRequst(String url){
 
 
@@ -155,7 +157,7 @@ public class MovieInfoActivity extends AppCompatActivity {
                     String title = obj.getString("original_title");
                     String synopsis = obj.getString("synopsis");
                     String runtime = obj.getString("runtime");
-                    final String poster_image_thumbnail = obj.getString("poster_image_thumbnail");
+                    poster_image_thumbnail = obj.getString("poster_image_thumbnail");
                     final String id = obj.getString("id");
                     toggleButton(savedFragment.checkMOvie(String.valueOf(id)));
 
@@ -167,12 +169,17 @@ public class MovieInfoActivity extends AppCompatActivity {
                             toggleButton(savedFragment.checkMOvie(id));
                             if(savedFragment.checkMOvie(String.valueOf(id))){
                                 UnsaveMovie(String.valueOf(id));
-
                                 Toast.makeText(MovieInfoActivity.this, "Movie is unsaved!", Toast.LENGTH_SHORT).show();
                             }else {
-                                saveMovie(poster_image_thumbnail, String.valueOf(id));
-                                Toast.makeText(MovieInfoActivity.this, "Movie Saved!", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(MovieInfoActivity.this, "Go to Saved movies tab to view saved movies", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MovieInfoActivity.this,CreateOrEditAlert.class);
+                                intent.putExtra("thumbnail",poster_image_thumbnail);
+                                intent.putExtra("id",String.valueOf(id));
+                                startActivity(intent);
+
+
+//                                saveMovie(poster_image_thumbnail, String.valueOf(id));
+//                                Toast.makeText(MovieInfoActivity.this, "Movie Saved!", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(MovieInfoActivity.this, "Go to Saved movies tab to view saved movies", Toast.LENGTH_SHORT).show();
 
                             }
 
@@ -314,9 +321,9 @@ public class MovieInfoActivity extends AppCompatActivity {
     public void toggleButton(boolean id){
         Log.e(TAG, "toggleButton: "+ id );
         if (id){
-            mBtnSave.setText("Unsave");
+            mBtnSave.setText("UNSAVE");
         }else {
-            mBtnSave.setText("Save");
+            mBtnSave.setText("SAVE");
         }
     }
 }

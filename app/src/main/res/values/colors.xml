@@ -8,4 +8,6 @@
     <color name="colorBackgroundViolet">#9B59B6</color>
     <color name="duskYellow">#f1c40f</color>
     <color name="lightGrey">#7f8c8d</color>
+    <color name="black">#000</color>
+    <color name="white">#FFFF</color>
 </resources>

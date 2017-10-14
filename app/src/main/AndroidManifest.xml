@@ -4,7 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
@@ -25,8 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MovieInfoActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity
+            android:name=".activities.MovieInfoActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <service android:name=".firebase_fcm.MyFirebaseMessagingService">
             <intent-filter>
@@ -38,6 +40,32 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".activities.CreateOrEditAlert"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+
+        <receiver android:name=".service.AlarmSetter">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".service.AlarmReceiver"
+            android:enabled="true"> </receiver>
+        <service android:name=".service.AlarmService"
+            android:enabled="true"></service>
+        <provider
+            android:name=".service.ReminderContentProvider"
+            android:authorities="com.cruz.lantaw"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:label="LentItemsProvider"
+            android:readPermission="com.cruz.lantaw.READ"
+            android:writePermission="com.cruz.lantaw.WRITE" />
     </application>
 
 </manifest>

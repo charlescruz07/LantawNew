@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity implements ExpandingFragment
     private void initToolbar(){
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
 
     }
 
@@ -143,11 +143,11 @@ public class MainActivity extends AppCompatActivity implements ExpandingFragment
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
     @Override
     public void onExpandingClick(View view) {
